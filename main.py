@@ -9,52 +9,23 @@ __author__ = "EanNewton"
 __version__ = "0.1.0"
 __license__ = "AGPL-3.0"
 
-from cutil import debug, multi_in, map_to_int_list
+from cutil import debug, multi_in, map_to_int_list, timer
 
 
-def day1_p1(raw: list) -> int:
-    """
-    How many measurements are larger than the previous measurement?
-    :param raw: list
-    :return: int
-    """
-    return len([x for x, y in zip(raw, raw[1:]) if x < y])
-
-
-def day1_p2(raw: list) -> int:
-    """
-    Your goal now is to count the number of times the sum of
-    measurements in this sliding window increases from the previous sum.
-    :param raw: list
-    :return: int
-    """
-    return len([x for x, y in zip([sum(raw[i:i + 3]) for i in range(len(raw)) if i < len(raw) - 2], [sum(raw[i:i + 3]) for i in range(len(raw)) if i < len(raw) - 2][1:]) if x < y])
-
-
-def day2_p1(raw: list, xy: list) -> int:
-    """
-    What do you get if you multiply your final horizontal position by your final depth?
-    :param raw: user input
-    :param xy: starting position
-    :return:
-    """
-    for op, val in [_.split() for _ in raw]:
-        xy = [[xy[i][j] + {'forward': [[int(val), 0]], 'up': [[0, int(val) * -1]], 'down': [[0, int(val)]]}.get(op, None)[i][j] for j in range(len(xy[0]))] for i in range(len(xy))]
-    return xy[0][0] * xy[0][1]
-
-
-def day2_p2(raw: list) -> int:
-    """
-    What do you get if you multiply your final horizontal position by your final depth?
-    :param raw:
-    :return:
-    """
-    xya = [[0, 0, 0]]
-    for op, val in [_.split() for _ in raw]:
-        id_ = {'forward': [[int(val), 0]], 'up': [[0, int(val) * -1]], 'down': [[0, int(val)]]}.get(op, None)
-        xy = [[xy[i][j] + id_[i][j] for j in range(len(xy[0]))] for i in range(len(xy))]
-    return xy[0][0] * xy[0][1]
-
+def d11(r):
+    return len([x for x,y in zip(r,r[1:])if x<y])
+def d12(r):
+    return len([x for x,y in zip([sum(r[i:i+3])for i in range(len(r))if i<len(r)-2],[sum(r[i:i+3])for i in range(len(r))if i<len(r)-2][1:])if x<y])
+def d21(r,m=[[0,0]]):
+    for o,v in[(o,int(v))for _ in r for(o,v)in[_.split()]]:
+        m=[[m[i][j]+{'forward':[[v,0]],'up':[[0,v*-1]],'down':[[0,v]]}.get(o,None)[i][j]for j in range(len(m[0]))]for i in range(len(m))]
+    return m[0][0]*m[0][1]
+def d22(a,b=[[0,0,0]]):
+    for d,e in[(d,int(e))for _ in a for(d,e)in[_.split()]]:
+        b=[[b[i][j]+{'forward':[[e,e*b[0][2],0]],'up':[[0,0,e*-1]],'down':[[0,0,e]]}.get(d,None)[i][j]for j in range(len(b[0]))]for i in range(len(b))]
+    return b[0][0]*b[0][1]
+def d31(r):
+    return(lambda _: _[0]*_[1])([int(''.join([f(set(e),key=e.count)for e in[([_[e]for _ in r])for e in range(len(r[0]))]]),2)for f in(min,max)])
 
 if __name__ == '__main__':
-    print(day2_p1(multi_in(), [[0, 0]]))
+    print(globals()['d'+input('>')](multi_in()))
