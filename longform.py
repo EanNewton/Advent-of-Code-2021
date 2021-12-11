@@ -65,6 +65,34 @@ def day3_p1_medium(r):
     return int(''.join([max(set(e),key=e.count)for e in[([_[e]for _ in r])for e in range(len(r[0]))]]),2)*\
            int(''.join([min(set(e),key=e.count)for e in[([_[e]for _ in r])for e in range(len(r[0]))]]),2)
 
+def mcb(r: list, pos: int):
+ return [max(set(e), key=e.count) for e in [([_[e] for _ in r]) for e in range(len(r[0]))]][pos]
+
+def lcb(r: list, pos: int):
+ return [min(set(e), key=e.count) for e in [([_[e] for _ in r]) for e in range(len(r[0]))]][pos]
+
+def day3_p2(r: list) -> int:
+ def filter(r: list, f: str, pos: int) -> list:
+  return [x for x in r if x[pos] == f]
+
+ def looper(r_: list, call: str) -> int:
+  pos = 0
+  while len(r_) > 2:
+   r_ = filter(r_, globals()[call](r_, pos), pos)
+   pos += 1
+  # Need to fix 'equal bit' counts for final compare
+  # min / max default to the first in list
+  # https://docs.python.org/3/library/functions.html#min
+  if globals()[call](r_, pos) == globals()[call](r_[::-1], pos):
+   if call == 'mcb':
+    r_ = r_[0] if r_[0][pos] == '1' else r_[1]
+   else:
+    r_ = r_[1] if r_[0][pos] == '1' else r_[0]
+  return int(r_, 2)
+
+ return looper(r, 'mcb') * looper(r, 'lcb')
+
+
 
 def cmd_move():
     return # ok to call this
