@@ -12,13 +12,14 @@ __license__ = "AGPL-3.0"
 
 import sys
 from cutil import debug, multi_in
+
 f_,u_,d_='forward','up','down'
-i_,l_,r_,M_,m_=int,len,range,max,min
-rl_=lambda _:r_(l_(_))
+i_,l_,r_,M_,m_,rl_=int,len,range,max,min,lambda _:r_(l_(_))
+
 def _m(r,i):
- return [max(set(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]][i]
+ return [M_(set(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]][i]
 def _l(r,i):
- return [min(set(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]][i]
+ return [m_(set(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]][i]
 
 
 def d11(r):
@@ -32,7 +33,7 @@ def d22(a,b=[[0,0,0]]):
  for d,e in[(d,i_(e))for _ in a for(d,e)in[_.split()]]:b=[[b[i][j]+{f_:[[e,e*b[0][2],0]],u_:[[0,0,e*-1]],d_:[[0,0,e]]}.get(d,None)[i][j]for j in rl_(b[0])]for i in rl_(b)]
  return b[0][0]*b[0][1]
 def d31(r):
- return(lambda _:_[0]*_[1])([i_(''.join([f(set(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]]),2)for f in(min,max)])
+ return(lambda _:_[0]*_[1])([i_(''.join([f(set(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]]),2)for f in(m_,M_)])
 def d32(r):
  def l(r,f,i=0):
   while l_(r)>2:r=[_ for _ in r if _[i]==globals()[f](r,i)];i+=1
@@ -40,6 +41,6 @@ def d32(r):
  return l(r,'_m')*l(r,'_l')
 
 if __name__ == '__main__':
- print(globals()['d' + input('>')](multi_in()))  # Ctrl-D to EOF
+ print(globals()['d' + input('>')](multi_in()))  # ENTER to EOF
  #print(globals()['d'+input('>')](sys.stdin.readlines())) # Ctrl-D to EOF
  #print(globals()['d' + input('>')](open(0).read()))  # Ctrl-D to EOF
