@@ -40,7 +40,31 @@ def d32(r):
   return i_([([r[0],r[1]][r[0][i]=='1']),([r[1],r[0]][r[0][i]=='1'])][f=='_m'],2)
  return l(r,'_m')*l(r,'_l')
 
+
+def d41(raw: list) -> int:
+ # bingo
+ calls = [raw.splitlines()][0][0].split(',')
+ print(calls)
+ boards = [_ for _ in raw.splitlines()[1::] if _]
+ boards = [x.split() for x in boards]
+ #boards_copy = frozenset(boards)
+ winner = None
+ # out of order, need to
+ # for each call check each board
+ while [1 for _ in boards if _]:
+  print(boards)
+  for idx, each in enumerate(boards):
+   print('_idx: {}\neach: {}'.format(idx, each))
+   for cid, num in enumerate(calls):
+    if num in each:
+     print('cid: {}\nnum: {}\neach: {}'.format(cid, num, each))
+     each.pop(cid)
+     winner = idx
+ print(winner)
+ print(calls)
+ print(boards)
+
 if __name__ == '__main__':
- print(globals()['d' + input('>')](multi_in()))  # ENTER to EOF
+ #print(globals()['d' + input('>')](multi_in()))  # ENTER to EOF
  #print(globals()['d'+input('>')](sys.stdin.readlines())) # Ctrl-D to EOF
- #print(globals()['d' + input('>')](open(0).read()))  # Ctrl-D to EOF
+ print(globals()['d' + input('>')](open(0).read()))  # Ctrl-D to EOF
