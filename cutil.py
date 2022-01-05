@@ -80,3 +80,10 @@ def fetch_file(directory: str, filename: str):
 def wrap(s: str, w: int) -> list:
     """Break a long string s into a list of strings of length w"""
     return [s[i:i + w] for i in range(0, len(s), w)]
+
+
+def matrix_rotate(raw: list) -> list:
+    """Rotate elements in a list of lists by 90 degrees, ie columns -> rows"""
+    return [[_[each] for _ in raw] for each in range(len(raw[0]))]
+def _mr(r):
+ return[[_[e]for _ in r]for e in rl_(r[0])]

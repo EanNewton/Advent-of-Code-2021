@@ -11,6 +11,7 @@ __version__ = "0.1.0"
 __license__ = "AGPL-3.0"
 
 import sys
+from copy import deepcopy as dc
 from cutil import debug, multi_in
 
 f_,u_,d_='forward','up','down'
@@ -39,30 +40,22 @@ def d32(r):
   while l_(r)>2:r=[_ for _ in r if _[i]==globals()[f](r,i)];i+=1
   return i_([([r[0],r[1]][r[0][i]=='1']),([r[1],r[0]][r[0][i]=='1'])][f=='_m'],2)
  return l(r,'_m')*l(r,'_l')
+def d41(r):
+ def _t(b,c,r,n):
+  for h_,h in enumerate(r):
+   for _ in h:
+    if n in _:_.pop(_.index(n))
+    if l_(_)==0:
+     c=[i_(_)for _ in c]
+     return i_(n)*sum([_ for _ in[x for y in[list(map(i_,_))for _ in b[h_]]for x in y]if _ not in c[0:c.index(i_(n))+1]])
+ c=[r.splitlines()][0][0].split(',')
+ b=[x.split()for x in[_ for _ in r.splitlines()[1::]if _]]
+ rc=[[b[n:n+5]for n in r_(0,l_(b),5)]]
+ rc.extend([[[[j[e]for j in r]for e in rl_(r[0])]for _ in rc[0]],dc(rc[0])])
+ for i in c:
+  t=[_t(rc[2],c,rc[k],i)for k in(0,1)]
+  if not all([_==None for _ in t]):return next(filter(None,t))
 
-
-def d41(raw: list) -> int:
- # bingo
- calls = [raw.splitlines()][0][0].split(',')
- print(calls)
- boards = [_ for _ in raw.splitlines()[1::] if _]
- boards = [x.split() for x in boards]
- #boards_copy = frozenset(boards)
- winner = None
- # out of order, need to
- # for each call check each board
- while [1 for _ in boards if _]:
-  print(boards)
-  for idx, each in enumerate(boards):
-   print('_idx: {}\neach: {}'.format(idx, each))
-   for cid, num in enumerate(calls):
-    if num in each:
-     print('cid: {}\nnum: {}\neach: {}'.format(cid, num, each))
-     each.pop(cid)
-     winner = idx
- print(winner)
- print(calls)
- print(boards)
 
 if __name__ == '__main__':
  #print(globals()['d' + input('>')](multi_in()))  # ENTER to EOF
