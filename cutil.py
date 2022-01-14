@@ -85,5 +85,9 @@ def wrap(s: str, w: int) -> list:
 def matrix_rotate(raw: list) -> list:
     """Rotate elements in a list of lists by 90 degrees, ie columns -> rows"""
     return [[_[each] for _ in raw] for each in range(len(raw[0]))]
+
 def _mr(r):
- return[[_[e]for _ in r]for e in rl_(r[0])]
+ return[[_[e]for _ in r]for e in rl_(r[0])] # rl_ = range(len(item))
+
+def flatten_lists(list_of_lists: list) -> list:
+    return [item for sublist in list_of_lists for item in sublist]

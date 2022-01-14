@@ -15,13 +15,19 @@ from copy import deepcopy as dc
 from cutil import debug, multi_in
 
 f_,u_,d_='forward','up','down'
-i_,l_,r_,M_,m_,rl_=int,len,range,max,min,lambda _:r_(l_(_))
+i_,l_,r_,M_,m_,e_,rl_=int,len,range,max,min,enumerate,lambda _:r_(l_(_))
 
 def _m(r,i):
  return [M_(set(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]][i]
 def _l(r,i):
  return [m_(set(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]][i]
-
+def _mr(r):
+ return[[_[e]for _ in r]for e in rl_(r[0])]
+def _t(b,c,l,s=[]):
+    c=[i_(_)for _ in c]
+    for _ in[x for y in[list(map(i_,i))for i in b]for x in y]:
+        if _ not in c[0:c.index(i_(l))+1]:s.append(_)
+    return sum(s)*i_(l)
 
 def d11(r):
  return l_([x for x,y in zip(r,r[1:])if x<y])
@@ -41,20 +47,33 @@ def d32(r):
   return i_([([r[0],r[1]][r[0][i]=='1']),([r[1],r[0]][r[0][i]=='1'])][f=='_m'],2)
  return l(r,'_m')*l(r,'_l')
 def d41(r):
- def _t(b,c,r,n):
-  for h_,h in enumerate(r):
-   for _ in h:
-    if n in _:_.pop(_.index(n))
-    if l_(_)==0:
-     c=[i_(_)for _ in c]
-     return i_(n)*sum([_ for _ in[x for y in[list(map(i_,_))for _ in b[h_]]for x in y]if _ not in c[0:c.index(i_(n))+1]])
- c=[r.splitlines()][0][0].split(',')
- b=[x.split()for x in[_ for _ in r.splitlines()[1::]if _]]
- rc=[[b[n:n+5]for n in r_(0,l_(b),5)]]
- rc.extend([[[[j[e]for j in r]for e in rl_(r[0])]for _ in rc[0]],dc(rc[0])])
- for i in c:
-  t=[_t(rc[2],c,rc[k],i)for k in(0,1)]
-  if not all([_==None for _ in t]):return next(filter(None,t))
+    c=[r.splitlines()][0][0].split(',')
+    b=[_ for _ in r.splitlines()[1::]if _]
+    b=[x.split()for x in b]
+    R=[b[n:n+5]for n in r_(0,l_(b),5)]
+    k=dc(R)
+    z=[[x,y]for(x, y)in zip([_mr(_)for _ in R],R)]
+    for e in c:
+        for bi,_ in e_(z):
+            for h in _:
+                for i in h:
+                    if e in i:i.pop(i.index(e))
+                    if l_(i)==0:return _t(k[bi],c,e)
+def d42(r,W=[]):
+    c=[r.splitlines()][0][0].split(',')
+    b=[_ for _ in r.splitlines()[1::]if _]
+    b=[x.split()for x in b]
+    R=[b[n:n+5]for n in r_(0,l_(b),5)]
+    k=dc(R)
+    z=[[x,y]for(x,y)in zip([_mr(_)for _ in R],R)]
+    for e in c:
+        for bi,_ in e_(z):
+            for h in _:
+                for i in h:
+                    if e in i:i.pop(i.index(e))
+                    if l_(i)==0:
+                        if bi not in W:W.append(bi)
+                        if l_(W)==l_(z):return _t(k[bi],c,e)
 
 
 if __name__ == '__main__':
