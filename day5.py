@@ -12,6 +12,7 @@ __license__ = "AGPL-3.0"
 
 # Naive solutions
 # 4602 characters, 147 line breaks
+# 457.14% of golfed
 
 from typing import Generator
 
