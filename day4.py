@@ -145,6 +145,25 @@ def d42(r,W=[]):
                         if bi not in W:W.append(bi)
                         if l_(W)==l_(z):return _t(k[bi],c,e)
 
+def d40(r,W=[],f=0): # f = True for part 1, False for part 2
+    c=[r.splitlines()][0][0].split(',')
+    b=[_ for _ in r.splitlines()[1::]if _]
+    b=[x.split()for x in b]
+    R=[b[n:n+5]for n in r_(0,l_(b),5)]
+    k=dc(R)
+    z=[[x,y]for(x,y)in zip([_mr(_)for _ in R],R)]
+    for e in c:
+        for bi,_ in e_(z):
+            for h in _:
+                for i in h:
+                    if e in i:i.pop(i.index(e))
+                    if l_(i)==0:
+                        if f:
+                            if bi not in W:W.append(bi)
+                            if l_(W)==l_(z):return _t(k[bi],c,e)
+                        else:return _t(k[bi],c,e)
+
+
 
 if __name__ == '__main__':
     # print(globals()['d' + input('>')](multi_in()))  # ENTER to EOF
