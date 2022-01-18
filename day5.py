@@ -12,7 +12,7 @@ __license__ = "AGPL-3.0"
 
 # Naive solutions
 # 4602 characters, 147 line breaks
-# 457.14% of golfed
+# 457.45% of golfed
 
 from typing import Generator
 
@@ -164,8 +164,8 @@ def day5_part2(raw: str) -> int:
     return score_board(board)
 
 # Golfed solutions
-# 1022 characters, 34 line breaks
-# 21.87% of naive
+# 1006 characters, 34 line breaks
+# 21.86% of naive
 
 i_,l_,r_,M_,m_,e_,a_,rl_=int,len,range,max,min,enumerate,abs,lambda _:r_(l_(_))
 def _f(r,c=[],m=0):
@@ -182,17 +182,17 @@ def _sp(p,g,a="c",b="d",c="a",d="b"):
   for _ in r_(p[a],p[b]+1):
     if a=="c":g[_][p[c]]+=1
     else:g[p[c]][_]+=1
-def _L(x0,y0,x1,y1,e=0):
-  d=[x1-x0,y1-y0]
-  de=a_(d[1]/d[0])
-  d=[i_(a_(_)/_)for _ in d]
-  for x in r_(x0,x1,d[0]):
-    yield x,y0
-    e+=de
+def _L(a,b,c,d,e=0):
+  z=[c-a,d-b]
+  q=a_(z[1]/z[0])
+  z=[i_(a_(_)/_)for _ in z]
+  for x in r_(a,c,z[0]):
+    yield x,b
+    e+=q
     while e>=0.5:
-      y0+=d[1]
+      b+=z[1]
       e-=1
-  yield x1,y1
+  yield c,d
 def d50(r,f=0): # f = False for part 1, True for part 2
   p,m=_f(r)
   g=[[0 for _ in r_(m)]for i in r_(m)]

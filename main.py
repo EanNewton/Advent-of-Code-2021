@@ -17,42 +17,51 @@ from cutil import debug, multi_in
 f_,u_,d_='forward','up','down'
 i_,l_,r_,M_,m_,e_,a_,rl_=int,len,range,max,min,enumerate,abs,lambda _:r_(l_(_))
 
-def _m(r,i): # most common bit
+# Helper Functions
+# most common bit
+def _m(r,i):
  return [M_(set(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]][i]
-def _l(r,i): # least common bit
+# least common bit
+def _l(r,i):
  return [m_(set(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]][i]
-def _mr(r): # matrix rotation
+# matrix rotation
+def _mr(r):
  return[[_[e]for _ in r]for e in rl_(r[0])]
-def _t(b,c,l,s=[]): # day 4 total score
+# day 4 total score
+def _t(b,c,l,s=[]):
     c=[i_(_)for _ in c]
     for _ in[x for y in[list(map(i_,i))for i in b]for x in y]:
         if _ not in c[0:c.index(i_(l))+1]:s.append(_)
     return sum(s)*i_(l)
-def _f(r,c=[],m=0): # day 5 filter input
+# day 5 filter input
+def _f(r,c=[],m=0):
   for _ in [_.split(" -> ")for _ in r.splitlines()]:
     v=[i_(j)for k in _ for j in k.split(',')]
     n={"a":v[0],"c":v[1],"b":v[2],"d":v[3]}
     if m<M_(v):m=M_(v)
     c.append(n)
   return c,m+1
-def _sb(g): # day 5 score board
+# day 5 score board
+def _sb(g):
   return l_([i for s in g for i in s if i>1])
-def _sp(p,g,a="c",b="d",c="a",d="b"): # day 5 draw positions on board
+# day 5 draw positions on board
+def _sp(p,g,a="c",b="d",c="a",d="b"):
   if p[a]>p[b]:p[a],p[b],p[c],p[d]=p[b],p[a],p[d],p[c]
   for _ in r_(p[a],p[b]+1):
     if a=="c":g[_][p[c]]+=1
     else:g[p[c]][_]+=1
-def _L(x0,y0,x1,y1,e=0): # day 5 Bresenham's line algo
-  d=[x1-x0,y1-y0]
-  de=a_(d[1]/d[0])
-  d=[i_(a_(_)/_)for _ in d]
-  for x in r_(x0,x1,d[0]):
-    yield x,y0
-    e+=de
+# day 5 Bresenham's line algo
+def _L(a,b,c,d,e=0):
+  z=[c-a,d-b]
+  q=a_(z[1]/z[0])
+  z=[i_(a_(_)/_)for _ in z]
+  for x in r_(a,c,z[0]):
+    yield x,b
+    e+=q
     while e>=0.5:
-      y0+=d[1]
+      b+=z[1]
       e-=1
-  yield x1,y1
+  yield c,d
 
 
 def d11(r):
