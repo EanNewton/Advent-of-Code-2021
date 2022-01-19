@@ -10,25 +10,33 @@ __author__ = "EanNewton"
 __version__ = "0.1.0"
 __license__ = "AGPL-3.0"
 
-
 from copy import deepcopy as dc
 from collections import deque as De
+
+from numpy import asarray as A
+from numpy import exp as E
+from numpy.random import randn as N
+from numpy.random import rand as R
+from numpy.random import seed as S
+
 from cutil import debug, multi_in
 
-# cost = 4+len(built_in)
+
 f_,u_,d_='forward','up','down'
-i_,l_,L_,r_,M_,m_,x_,e_,a_,s_,S_,z_,rl_=int,len,list,range,max,min,map,enumerate,abs,sum,set,zip,lambda _:r_(l_(_))
+i_,f_,l_,L_,r_,M_,m_,x_,e_,a_,s_,S_,z_,rl_=int,float,len,list,range,max,min,map,enumerate,abs,sum,set,zip,lambda _:r_(l_(_))
 
 # Helper Functions
 # most common bit
+# 2 usage
 def _m(r,i):
- return [M_(S_(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]][i]
+ return[M_(S_(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]][i]
 # least common bit
+# 1 usage
 def _l(r,i):
- return [m_(S_(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]][i]
+ return[m_(S_(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]][i]
 # matrix rotation
-def _mr(r):
- return[[_[e]for _ in r]for e in rl_(r[0])]
+# def _mr(r):
+#  return[[_[e]for _ in r]for e in rl_(r[0])]
 # day 4 total score
 def _t(b,c,l,s=[]):
     c=[i_(_)for _ in c]
@@ -43,9 +51,6 @@ def _f(r,c=[],m=0):
     if m<M_(v):m=M_(v)
     c.append(n)
   return c,m+1
-# day 5 score board
-def _sb(g):
-  return l_([i for s in g for i in s if i>1])
 # day 5 draw positions on board
 def _sp(p,g,a="c",b="d",c="a",d="b"):
   if p[a]>p[b]:p[a],p[b],p[c],p[d]=p[b],p[a],p[d],p[c]
@@ -85,7 +90,7 @@ def d40(r,W=[],f=0): # f = True for part 1, False for part 2
     b=[x.split()for x in b]
     R=[b[n:n+5]for n in r_(0,l_(b),5)]
     k=dc(R)
-    z=[[x,y]for(x,y)in z_([_mr(_)for _ in R],R)]
+    z=[[x,y]for(x,y)in z_([[[_[e]for _ in r]for e in rl_(r[0])]for _ in R],R)]
     for e in c:
         for bi,_ in e_(z):
             for h in _:
@@ -104,7 +109,7 @@ def d50(r,f=0): # f = False for part 1, True for part 2
       elif _["c"]==_["d"]:_sp(_,g,"a","b","c","d")
       elif f*a_(_["a"]-_["b"])==a_(_["c"]-_["d"]):
           for x,y in _L(_["a"],_["c"],_["b"],_["d"]):g[y][x]+=1
-  return _sb(g)
+  return l_([i for s in g for i in s if i>1])
 def d60(r,e=256,c=[0 for _ in r_(0,9)]):
  for _ in L_(x_(i_,r[0].split(','))):c[_]+=1
  for _ in[1]*e:
@@ -113,6 +118,20 @@ def d60(r,e=256,c=[0 for _ in r_(0,9)]):
   d.rotate(-1)
   c=L_(d)
  return s_(c)
+def d70(r,s=0.1,T=1,f=1): 
+    S(1)
+    r=L_(x_(i_,r.split(',')))
+    o=(lambda p:s_([(f_(a_(p-e))**2+f_(a_(p-e)))/2for e in r]))if f else(lambda p:s_([a_(e-p)for e in r]))
+    b=A([[0,M_(r)]])
+    z=b[:,0]+R(l_(b))*(b[:,1]-b[:,0])
+    Z=o(z)
+    x,X=z,Z
+    for i in r_(999):
+        y=x+N(l_(b))*s
+        Y=o(y)
+        if Y<Z:z,Z=y,Y
+        if Y-X<0|(N()<E(-Y-X/(T/(i+1.)))):x,X=y,Y
+    return Z
 
 if __name__ == '__main__':
  #print(globals()['d' + input('>')](multi_in()))  # ENTER to EOF
