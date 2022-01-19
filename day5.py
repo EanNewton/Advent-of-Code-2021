@@ -182,6 +182,17 @@ def _sp(p,g,a="c",b="d",c="a",d="b"):
   for _ in r_(p[a],p[b]+1):
     if a=="c":g[_][p[c]]+=1
     else:g[p[c]][_]+=1
+
+#139, 6
+def _L(x,b,c,d,e=0):
+ f,g=c-x,d-b
+ h,i,j=a_(f)//f,a_(g)//g,a_(g/f)
+ for x in r_(x,c,h):
+  yield x,b;e+=j
+  while e>=.5:b+=i;e-=1
+ yield c,d
+
+#183, 10
 def _L(a,b,c,d,e=0):
   z=[c-a,d-b]
   q=a_(z[1]/z[0])
@@ -193,7 +204,8 @@ def _L(a,b,c,d,e=0):
       b+=z[1]
       e-=1
   yield c,d
-def d50(r,f=0): # f = False for part 1, True for part 2
+
+def d50(r,f=1): # f = False for part 1, True for part 2
   p,m=_f(r)
   g=[[0 for _ in r_(m)]for i in r_(m)]
   for _ in p:

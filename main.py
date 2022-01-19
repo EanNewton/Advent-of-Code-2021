@@ -10,29 +10,31 @@ __author__ = "EanNewton"
 __version__ = "0.1.0"
 __license__ = "AGPL-3.0"
 
-import sys
+
 from copy import deepcopy as dc
+from collections import deque as De
 from cutil import debug, multi_in
 
+# cost = 4+len(built_in)
 f_,u_,d_='forward','up','down'
-i_,l_,r_,M_,m_,e_,a_,rl_=int,len,range,max,min,enumerate,abs,lambda _:r_(l_(_))
+i_,l_,L_,r_,M_,m_,x_,e_,a_,s_,S_,z_,rl_=int,len,list,range,max,min,map,enumerate,abs,sum,set,zip,lambda _:r_(l_(_))
 
 # Helper Functions
 # most common bit
 def _m(r,i):
- return [M_(set(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]][i]
+ return [M_(S_(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]][i]
 # least common bit
 def _l(r,i):
- return [m_(set(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]][i]
+ return [m_(S_(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]][i]
 # matrix rotation
 def _mr(r):
  return[[_[e]for _ in r]for e in rl_(r[0])]
 # day 4 total score
 def _t(b,c,l,s=[]):
     c=[i_(_)for _ in c]
-    for _ in[x for y in[list(map(i_,i))for i in b]for x in y]:
+    for _ in[x for y in[L_(x_(i_,i))for i in b]for x in y]:
         if _ not in c[0:c.index(i_(l))+1]:s.append(_)
-    return sum(s)*i_(l)
+    return s_(s)*i_(l)
 # day 5 filter input
 def _f(r,c=[],m=0):
   for _ in [_.split(" -> ")for _ in r.splitlines()]:
@@ -51,23 +53,19 @@ def _sp(p,g,a="c",b="d",c="a",d="b"):
     if a=="c":g[_][p[c]]+=1
     else:g[p[c]][_]+=1
 # day 5 Bresenham's line algo
-def _L(a,b,c,d,e=0):
-  z=[c-a,d-b]
-  q=a_(z[1]/z[0])
-  z=[i_(a_(_)/_)for _ in z]
-  for x in r_(a,c,z[0]):
-    yield x,b
-    e+=q
-    while e>=0.5:
-      b+=z[1]
-      e-=1
-  yield c,d
+def _L(x,b,c,d,e=0):
+ f,g=c-x,d-b
+ h,i,j=a_(f)//f,a_(g)//g,a_(g/f)
+ for x in r_(x,c,h):
+  yield x,b;e+=j
+  while e>=.5:b+=i;e-=1
+ yield c,d
 
 
 def d11(r):
- return l_([x for x,y in zip(r,r[1:])if x<y])
+ return l_([x for x,y in z_(r,r[1:])if x<y])
 def d12(r):
- return l_([x for x,y in zip([sum(r[i:i+3])for i in rl_(r)if i<l_(r)-2],[sum(r[i:i+3])for i in rl_(r)if i<l_(r)-2][1:])if x<y])
+ return l_([x for x,y in z_([s_(r[i:i+3])for i in rl_(r)if i<l_(r)-2],[s_(r[i:i+3])for i in rl_(r)if i<l_(r)-2][1:])if x<y])
 def d21(r,m=[[0,0]]):
  for o,v in[(o,i_(v))for _ in r for(o,v)in[_.split()]]:m=[[m[i][j]+{f_:[[v,0]],u_:[[0,v*-1]],d_:[[0,v]]}.get(o,None)[i][j]for j in rl_(m[0])]for i in rl_(m)]
  return m[0][0]*m[0][1]
@@ -75,7 +73,7 @@ def d22(a,b=[[0,0,0]]):
  for d,e in[(d,i_(e))for _ in a for(d,e)in[_.split()]]:b=[[b[i][j]+{f_:[[e,e*b[0][2],0]],u_:[[0,0,e*-1]],d_:[[0,0,e]]}.get(d,None)[i][j]for j in rl_(b[0])]for i in rl_(b)]
  return b[0][0]*b[0][1]
 def d31(r):
- return(lambda _:_[0]*_[1])([i_(''.join([f(set(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]]),2)for f in(m_,M_)])
+ return(lambda _:_[0]*_[1])([i_(''.join([f(S_(e),key=e.count)for e in[([_[e]for _ in r])for e in rl_(r[0])]]),2)for f in(m_,M_)])
 def d32(r):
  def l(r,f,i=0):
   while l_(r)>2:r=[_ for _ in r if _[i]==globals()[f](r,i)];i+=1
@@ -87,7 +85,7 @@ def d40(r,W=[],f=0): # f = True for part 1, False for part 2
     b=[x.split()for x in b]
     R=[b[n:n+5]for n in r_(0,l_(b),5)]
     k=dc(R)
-    z=[[x,y]for(x,y)in zip([_mr(_)for _ in R],R)]
+    z=[[x,y]for(x,y)in z_([_mr(_)for _ in R],R)]
     for e in c:
         for bi,_ in e_(z):
             for h in _:
@@ -107,6 +105,14 @@ def d50(r,f=0): # f = False for part 1, True for part 2
       elif f*a_(_["a"]-_["b"])==a_(_["c"]-_["d"]):
           for x,y in _L(_["a"],_["c"],_["b"],_["d"]):g[y][x]+=1
   return _sb(g)
+def d60(r,e=256,c=[0 for _ in r_(0,9)]):
+ for _ in L_(x_(i_,r[0].split(','))):c[_]+=1
+ for _ in[1]*e:
+  c[7]+=c[0]
+  d=De(c)
+  d.rotate(-1)
+  c=L_(d)
+ return s_(c)
 
 if __name__ == '__main__':
  #print(globals()['d' + input('>')](multi_in()))  # ENTER to EOF
