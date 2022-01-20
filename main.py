@@ -24,7 +24,7 @@ from cutil import debug, multi_in
 
 f_,u_,d_='forward','up','down'
 i_,f_,l_,L_,r_,M_,m_,x_,e_,a_,s_,S_,z_,rl_=int,float,len,list,range,max,min,map,enumerate,abs,sum,set,zip,lambda _:r_(l_(_))
-
+lmi_ = lambda _:list(map(int, _))
 # Helper Functions
 # most common bit
 # 2 usage
@@ -40,7 +40,7 @@ def _l(r,i):
 # day 4 total score
 def _t(b,c,l,s=[]):
     c=[i_(_)for _ in c]
-    for _ in[x for y in[L_(x_(i_,i))for i in b]for x in y]:
+    for _ in[x for y in[lmi_(i)for i in b]for x in y]:
         if _ not in c[0:c.index(i_(l))+1]:s.append(_)
     return s_(s)*i_(l)
 # day 5 filter input
@@ -110,28 +110,22 @@ def d50(r,f=0): # f = False for part 1, True for part 2
       elif f*a_(_["a"]-_["b"])==a_(_["c"]-_["d"]):
           for x,y in _L(_["a"],_["c"],_["b"],_["d"]):g[y][x]+=1
   return l_([i for s in g for i in s if i>1])
-def d60(r,e=256,c=[0 for _ in r_(0,9)]):
- for _ in L_(x_(i_,r[0].split(','))):c[_]+=1
- for _ in[1]*e:
+def d60(r,e=256,c=[0for _ in[0]*9]):
+ for _ in lmi_(r[0].split(',')):c[_]+=1
+ for _ in[0]*e:
   c[7]+=c[0]
   d=De(c)
   d.rotate(-1)
   c=L_(d)
  return s_(c)
-def d70(r,s=0.1,T=1,f=1): 
-    S(1)
-    r=L_(x_(i_,r.split(',')))
-    o=(lambda p:s_([(f_(a_(p-e))**2+f_(a_(p-e)))/2for e in r]))if f else(lambda p:s_([a_(e-p)for e in r]))
-    b=A([[0,M_(r)]])
-    z=b[:,0]+R(l_(b))*(b[:,1]-b[:,0])
-    Z=o(z)
-    x,X=z,Z
-    for i in r_(999):
-        y=x+N(l_(b))*s
-        Y=o(y)
-        if Y<Z:z,Z=y,Y
-        if Y-X<0|(N()<E(-Y-X/(T/(i+1.)))):x,X=y,Y
-    return Z
+def d70(r,f=0):
+ r=lmi_(r.split(','))
+ o=((lambda p:s_([a_(e-p)for e in r])),(lambda p:s_([(f_(a_(p-e))**2+f_(a_(p-e)))/2for e in r])))[f]
+ b,B=0,o(0)
+ for _ in r_(0,M_(r)+1):
+  c,C=_,o(_)
+  if C<B:b,B=c,C
+ return B
 
 if __name__ == '__main__':
  #print(globals()['d' + input('>')](multi_in()))  # ENTER to EOF

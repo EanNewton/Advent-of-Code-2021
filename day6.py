@@ -120,7 +120,7 @@ def day6_part0_numpy(raw: str, epoch=256) -> int:
 
 """
 Golfed solution
-163 characters, 7 line breaks, 19.42% of Naive
+154 characters, 7 line breaks
 The fastest approach, sum time for same dataset: 0.0009982585906982422
 It completes the entire dataset faster than the other approaches complete a single epoch.
 Track how many fish are at each level rather than each fish itself
@@ -128,15 +128,15 @@ Use deque rotation to both decrement all levels and "append a new fish" in one s
 """
 from collections import deque as De
 i_,r_,L_,x_,s_=int,range,list,map,sum
-def d60(r,e=256,c=[0 for _ in r_(0,9)]):
- for _ in L_(x_(i_,r[0].split(','))):c[_]+=1
- for _ in[1]*e:
+lmi_ = lambda _:list(map(int,_))
+def d60(r,e=80,c=[0for _ in[0]*9]):
+ for _ in lmi_(r[0].split(',')):c[_]+=1
+ for _ in[0]*e:
   c[7]+=c[0]
   d=De(c)
   d.rotate(-1)
   c=L_(d)
  return s_(c)
-
 if __name__ == '__main__':
     print(globals()['d' + input('>')](multi_in()))  # ENTER to EOF
     # print(globals()['d'+input('>')](sys.stdin.readlines())) # Ctrl-D to EOF
